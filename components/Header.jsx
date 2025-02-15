@@ -14,7 +14,7 @@ export default function Header() {
         <button className=" border px-4 py-1 rounded text-sm">English</button>
         <div className="relative w-full h-[40px]">      
           <Image 
-           src={"./Flag.avif"}
+           src="/Flag.avif"
            fill>
           </Image>
         </div>          

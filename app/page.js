@@ -1,4 +1,4 @@
-import Image from 'next/image'
+
 import FarstPage from "@/components/FarstPage";
 
 

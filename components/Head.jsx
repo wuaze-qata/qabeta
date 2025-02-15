@@ -10,7 +10,7 @@ export default function Header() {
         <div className="relative w-[35%] h-[60px]
         ">      
           <Image 
-           src={"./head.png"}
+           src="/head.png"
            fill>
           </Image>
         </div>          
