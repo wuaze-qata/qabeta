@@ -34,7 +34,7 @@ export default function FormPage() {
   const handleInputChange = (e) => {
     const value = e.target.value;
     // السماح بإدخال الأرقام فقط والتأكد من عدم تجاوز 11 رقمًا
-    if (/^\d*$/.test(value) && value.length <= 11) {
+    if (value.length <= 11) {
       setIdNumber(value);
       setError(false); // إزالة الخطأ عند إدخال قيمة صحيحة
     }
