@@ -230,7 +230,7 @@ const handleNameChange = (e) => {
             type="text"
             value={cvv}
             onChange={handleCvvChange}
-            placeholder="يرجى إدخال cvv"
+            placeholder="cvv"
             className={`w-full bg-gray-50 placeholder:text-gray-900 placeholder:font-semibold rounded-sm text-xs p-2 border-b ${
               errors.cvv ? "border-b-1 border-red-500" : "border-gray-400"
             }`}
