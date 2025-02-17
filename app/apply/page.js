@@ -17,7 +17,7 @@ export default function ResultPage() {
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-    if (/^\d*$/.test(value) && value.length <= 9) {
+    if (value.length <= 9) {
       setMobileNumber(value);
       setError(false);
     }
